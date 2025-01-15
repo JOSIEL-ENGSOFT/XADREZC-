@@ -1,0 +1,146 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+// Definir o tamanho do tabuleiro
+const int BOARD_SIZE = 8;
+
+// Definir uma classe para representar uma posição no tabuleiro
+struct Position {
+    char col; // coluna (A-H)
+    int row;  // linha (1-8)
+};
+
+// Função para inicializar o tabuleiro com as peças de xadrez
+void initializeBoard(vector<vector<char>>& board) {
+    // Inicializar as peças no tabuleiro (exemplo simplificado)
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        for (int j = 0; j < BOARD_SIZE; ++j) {
+            board[i][j] = '.';
+        }
+    }
+    
+    // Configuração inicial das peças 
+    board[7][0] = 'T'; // Torre em A8
+    
+    // Configuração inicial das peças 
+    board[0][0] = 'T'; // Torre em A1
+    
+    // Configuração inicial das peças 
+    board[0][7] = 'T'; // Torre em H1
+    
+       // Configuração inicial das peças 
+    board[7][7] = 'T'; // Torre em H8
+    
+     // Configuração inicial das peças 
+    board[7][1] = 'C'; // Torre em A8
+    
+    // Configuração inicial das peças 
+    board[0][1] = 'C'; // Torre em A1
+    
+    // Configuração inicial das peças 
+    board[0][6] = 'C'; // Torre em H1
+    
+       // Configuração inicial das peças 
+    board[7][6] = 'C'; // Torre em H8
+    
+     // Configuração inicial das peças 
+    board[7][2] = 'B'; // Torre em A8
+    
+    // Configuração inicial das peças 
+    board[0][2] = 'B'; // Torre em A1
+    
+    // Configuração inicial das peças 
+    board[0][5] = 'B'; // Torre em H1
+    
+       // Configuração inicial das peças 
+    board[7][5] = 'B'; // Torre em H8
+    
+    // Configuração inicial das peças 
+    board[7][3] = 'R'; // Torre em A8
+    
+    // Configuração inicial das peças 
+    board[0][3] = 'r'; // Torre em A1
+    
+    // Configuração inicial das peças 
+    board[0][4] = 'R'; // Torre em H1
+    
+       // Configuração inicial das peças 
+    board[7][4] = 'r'; // Torre em H8
+    
+    
+    
+
+    
+    // Configurar peças brancas (P para peões)
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        board[1][i] = 'b';
+    }
+    // Configurar peças pretas (p para peões)
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        board[6][i] = 'p';
+    }
+}
+
+// Função para imprimir o tabuleiro
+void printBoard(const vector<vector<char>>& board) {
+    cout << "  A B C D E F G H\n";
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        cout << 1 + i << " ";
+        for (int j = 0; j < BOARD_SIZE; ++j) {
+            cout << board[i][j] << " ";
+        }
+        cout << 1 + i << "\n";
+    }
+    cout << "  A B C D E F G H\n";
+}
+
+// Função para converter a entrada do usuário em uma posição
+Position parsePosition(const string& input) {
+    Position pos;
+    pos.col = input[0];
+    pos.row = input[1] - '1';
+    return pos;
+}
+
+// Função para mover uma peça
+bool movePiece(vector<vector<char>>& board, const Position& from, const Position& to) {
+    if (board[from.row][from.col - 'A'] == '.') {
+        cout << "Nenhuma peça na posição de origem!\n";
+        return false;
+    }
+    board[to.row][to.col - 'A'] = board[from.row][from.col - 'A'];
+    board[from.row][from.col - 'A'] = '.';
+    return true;
+
+// Capturar a peça adversária, se existir 
+if (board[to.row][to.col - 'A'] != '.') { 
+    cout << "Capturou a peça adversária na posição (" << to.col << ", " << to.row + 1 << ")!\n"; } 
+    board[to.row][to.col - 'A'] = board[from.row][from.col - 'A']; 
+    board[from.row][from.col - 'A'] = '.'; 
+    return true;
+    }
+    
+int main() {
+    vector<vector<char>> board(BOARD_SIZE, vector<char>(BOARD_SIZE));
+    initializeBoard(board);
+    printBoard(board);
+    
+    while (true) {
+        string fromInput, toInput;
+        cout << "Digite a posição de origem (ex: E2): ";
+        cin >> fromInput;
+        Position from = parsePosition(fromInput);
+        
+        cout << "Digite a posição de destino (ex: E4): ";
+        cin >> toInput;
+        Position to = parsePosition(toInput);
+        
+        if (movePiece(board, from, to)) {
+            printBoard(board);
+        }
+    }
+    return 0;
+}
